@@ -41,6 +41,11 @@ namespace Kaliko.ImageLibrary.WebResizer.Stores {
         #region Public functions
 
         public ActionResult GetImageResult(ImageProviderBase imageProvider, ImagePreset preset) {
+            // TODO: Add sub-routing based on image format
+            if(imageProvider.Path.ToLowerInvariant().EndsWith(".png")) {
+                return imageProvider.ServeOriginal("image/png");
+            }
+
             var imagePath = BuildImagePath(imageProvider);
 
             if (File.Exists(imagePath)) {

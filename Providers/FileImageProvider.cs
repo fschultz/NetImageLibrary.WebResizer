@@ -20,6 +20,7 @@
 namespace Kaliko.ImageLibrary.WebResizer.Providers {
     using System.IO;
     using System.Web.Hosting;
+    using System.Web.Mvc;
     using Helpers;
 
     public class FileImageProvider : ImageProviderBase {
@@ -29,8 +30,8 @@ namespace Kaliko.ImageLibrary.WebResizer.Providers {
         private readonly bool _isInvalid;
         private readonly string _physicalPath;
         private readonly string _presetName;
+        private readonly int _version;
         private string _eTag;
-        private int _version;
 
         #endregion
 
@@ -70,6 +71,10 @@ namespace Kaliko.ImageLibrary.WebResizer.Providers {
         }
 
         public override bool ImageExists => !_isInvalid;
+
+        public override ActionResult ServeOriginal(string contentType) {
+            return new FilePathResult(_physicalPath, contentType);
+        }
 
         #endregion
 

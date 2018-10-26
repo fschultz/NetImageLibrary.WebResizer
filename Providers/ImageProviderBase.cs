@@ -18,13 +18,21 @@
 #endregion
 
 namespace Kaliko.ImageLibrary.WebResizer.Providers {
+    using System.Web.Mvc;
+
     public abstract class ImageProviderBase {
-        protected ImageProviderBase(string presetName, string path, int version) {}
+        protected ImageProviderBase(string presetName, string path, int version) {
+            Path = path;
+        }
 
         public abstract string GetETag();
 
         public abstract KalikoImage GetImage();
 
         public abstract bool ImageExists { get; }
+
+        public string Path { get; }
+
+        public abstract ActionResult ServeOriginal(string contentType);
     }
 }
