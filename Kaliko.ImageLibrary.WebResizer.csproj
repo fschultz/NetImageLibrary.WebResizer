@@ -97,11 +97,13 @@
     <Compile Include="Controllers\ImageFactoryController.cs" />
     <Compile Include="ImageFactory.cs" />
     <Compile Include="Configuration\ImageCacheConfiguration.cs" />
+    <Compile Include="ImageSource.cs" />
     <Compile Include="Providers\FileImageProvider.cs" />
     <Compile Include="Providers\ImageProviderBase.cs" />
     <Compile Include="ImagePreset.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
+    <Compile Include="ImageSourceSet.cs" />
     <Compile Include="Stores\FileImageStore.cs" />
     <Compile Include="Stores\IImageStore.cs" />
   </ItemGroup>

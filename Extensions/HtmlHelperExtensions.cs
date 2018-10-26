@@ -24,6 +24,7 @@
     using Configuration;
 
     public static class HtmlHelperExtensions {
+        #region CachedImage
 
         public static MvcHtmlString CachedImage(this HtmlHelper htmlHelper, string path, ImagePreset preset, object htmlAttributes = null) {
             return CachedImage(htmlHelper, path, preset.Name, htmlAttributes);
@@ -46,24 +47,28 @@
             return new MvcHtmlString(tagBuilder.ToString(TagRenderMode.SelfClosing));
         }
 
-        public static MvcHtmlString CachedImageSet(this HtmlHelper htmlHelper, string path, IEnumerable<ImagePreset> presets, object htmlAttributes = null) {
+        #endregion CachedImage
+
+        #region CachedImageSet
+
+        public static MvcHtmlString CachedImageSet(this HtmlHelper htmlHelper, string path, ImageSourceSet sourceSet, object htmlAttributes = null) {
             if (string.IsNullOrEmpty(path)) {
                 return null;
             }
-            if (presets == null) {
+            if (sourceSet == null) {
                 return null;
             }
-            if (!presets.Any()) {
+            if (!sourceSet.Any()) {
                 return null;
             }
 
             path = path.TrimStart('/');
-            var mainPresetName = presets.First().Name;
+            var mainPresetName = sourceSet.DefaultPreset.Name;
             var src = $"/{ImageCacheConfiguration.VirtualRoot}/{mainPresetName}/{path}";
 
             var sources = new List<string>();
-            foreach (var preset in presets) {
-                sources.Add($"/{ImageCacheConfiguration.VirtualRoot}/{preset.Name}/{path} {preset.ScaleMethod.TargetWidth}w");
+            foreach (var preset in sourceSet.Presets) {
+                sources.Add($"/{ImageCacheConfiguration.VirtualRoot}/{preset.Preset.Name}/{path} {preset.Breakpoint}{preset.Unit}");
             }
             var srcSet = string.Join(", ", sources);
 
@@ -76,6 +81,7 @@
 
             return new MvcHtmlString(tagBuilder.ToString(TagRenderMode.SelfClosing));
         }
-        
+
+        #endregion CachedImageSet
     }
 }
